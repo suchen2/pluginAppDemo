@@ -1,0 +1,25 @@
+
+// apk本地路径: /storage/emulated/0/a.apk
+ getPackageManager().getPackageArchiveInfo(pluginApk.getAbsolutePath(), PackageManager.GET_ACTIVITIES);
+
+packageManager 类:
+    parser.parseMonolithicPackage() // 5587行 ->
+
+ PackageParser 类:
+    parseMonolithicPackageLite() // 1266行 ->
+    parseApkLite() // 878行 -> 1720行
+    报错: android.content.pm.PackageParser$PackageParserException: Failed to parse /storage/emulated/0/a.apk
+    cause: java.io.FileNotFoundException: AndroidManifest.xml
+
+AssetManager 类:
+    addAssetPath() ->
+    addAssetPathInternal() ->
+    ApkAssets.loadFromPath() // 450行 ->
+    new ApkAssets() -> try{ } cash{ IO异常 }
+
+
+                int cookie = assets.addAssetPath(apkPath);
+                if (cookie == 0) {
+                    throw new PackageParserException(INSTALL_PARSE_FAILED_NOT_APK,
+                            "Failed to parse " + apkPath);
+                }
