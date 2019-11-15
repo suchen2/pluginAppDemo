@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".PluginActivity">
+        <activity android:name=".activity.PluginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,6 +21,12 @@
 
        <!-- <activity android:name=".BaseActivity"/>
         <activity android:name=".PluginMainActivity" />-->
+        <service android:name=".service.PluginService">
+            <intent-filter>
+                <action android:name="com.botao.plugin_package.service"/>
+            </intent-filter>
+        </service>
+        <service android:name=".base.BaseService"/>
     </application>
 
 </manifest>

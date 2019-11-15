@@ -1,6 +1,7 @@
 package com.botao.pluginapp;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -57,6 +58,14 @@ public class ProxyActivity extends Activity {
         newIntent.putExtra(Constant.CLASS_NAME, intent.getStringExtra(Constant.CLASS_NAME));// 携带参数为插件APP传递过来要跳转的Activity.class
 
         super.startActivity(newIntent);// 一定要调用super的启动方法,不然就是递归调用本方法
+    }
+
+    @Override
+    public ComponentName startService(Intent service) {
+        Intent newService = new Intent(this, ProxyService.class);
+        newService.putExtra(Constant.CLASS_NAME, service.getStringExtra(Constant.CLASS_NAME));
+
+        return super.startService(newService);
     }
 
     @Override

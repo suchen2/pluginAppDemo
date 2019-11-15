@@ -77,8 +77,7 @@ public class MainActivity extends AppCompatActivity {
     public void startPluginActivity(View view) {
         // 为了不干扰宿主APP的扩展, 通过宿主代理的Activity去处理插件内所有相关的Activity事务
 
-        File         pluginApk          = new File(Environment.getExternalStorageDirectory() + File.separator + Constant.APK_NAME);
-        System.out.println( "MainActivity: pluginApkPath===" + pluginApk.getAbsolutePath());
+        File pluginApk = getPluginApkFilePath();
 
         PackageInfo  packageArchiveInfo = getPackageManager().getPackageArchiveInfo(pluginApk.getAbsolutePath(), PackageManager.GET_ACTIVITIES);
 
@@ -98,5 +97,11 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this,ProxyActivity.class);
         intent.putExtra(Constant.CLASS_NAME, activityInfo.name);
         startActivity(intent);
+    }
+
+    private File getPluginApkFilePath() {
+        File         pluginApk          = new File(Environment.getExternalStorageDirectory() + File.separator + Constant.APK_NAME);
+        System.out.println( "MainActivity: pluginApkPath===" + pluginApk.getAbsolutePath());
+        return pluginApk;
     }
 }

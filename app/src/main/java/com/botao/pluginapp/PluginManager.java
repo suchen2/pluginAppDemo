@@ -42,13 +42,13 @@ public class PluginManager {
         mContext = context;
     }
 
+    /**
+     * 加载插件
+     */
     public void  loadPlugin(){
         try {
-            File pluginPak = new File(Environment.getExternalStorageDirectory() + File.separator + Constant.APK_NAME);
-            if (!pluginPak.exists()) {
-                System.out.println( "loadPlugin: 插件apk不存在!");
-                return;
-            }
+            File pluginPak = getPluginApkFilePath();
+            if (pluginPak == null) return;
 
             // 加载插件class
 
@@ -73,6 +73,19 @@ public class PluginManager {
             e.printStackTrace();
             System.out.println( "loadPlugin: 加载插件内容出错===" + e.getMessage());
         }
+    }
+
+    /**
+     * 获取插件apk的 FilePath
+     * @return
+     */
+    private File getPluginApkFilePath() {
+        File pluginPak = new File(Environment.getExternalStorageDirectory() + File.separator + Constant.APK_NAME);
+        if (!pluginPak.exists()) {
+            System.out.println( "loadPlugin: 插件apk不存在!");
+            return null;
+        }
+        return pluginPak;
     }
 
     public ClassLoader getClassLoader() {
