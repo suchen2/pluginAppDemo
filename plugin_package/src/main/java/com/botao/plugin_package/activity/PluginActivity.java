@@ -1,11 +1,14 @@
 package com.botao.plugin_package.activity;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import com.botao.plugin_package.R;
 import com.botao.plugin_package.base.BaseActivity;
+import com.botao.plugin_package.broadcast.BroadcastReceivers;
 import com.botao.plugin_package.service.PluginService;
+import com.botao.startder.Constant;
 
 public class PluginActivity extends BaseActivity {
 
@@ -19,6 +22,31 @@ public class PluginActivity extends BaseActivity {
 
         findViewById(R.id.btn_plugin_start_service).setOnClickListener( v -> startPluginService());
 
+        findViewById(R.id.btn_plugin_register_broadcast).setOnClickListener( v -> registerBroadcast());
+
+        findViewById(R.id.btn_plugin_send_broadcast).setOnClickListener( v -> sendBroadcast());
+    }
+
+    /**
+     * 插件内注册Broadcast
+     */
+    private void registerBroadcast() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Constant.BROADCAST_INTENT_FILTER);
+
+        // 父类重写此方法,调用到宿主环境
+        registerReceiver(new BroadcastReceivers(), intentFilter);
+    }
+
+    /**
+     * 插件内发送Broadcast
+     */
+    private void sendBroadcast() {
+        Intent intent = new Intent();
+        intent.setAction(Constant.BROADCAST_INTENT_FILTER);
+
+        // 父类重写此方法,调用到宿主环境
+        sendBroadcast(intent);
     }
 
     /**

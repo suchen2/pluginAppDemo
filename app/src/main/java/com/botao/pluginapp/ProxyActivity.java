@@ -1,8 +1,10 @@
 package com.botao.pluginapp;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
@@ -66,6 +68,20 @@ public class ProxyActivity extends Activity {
         newService.putExtra(Constant.CLASS_NAME, service.getStringExtra(Constant.CLASS_NAME));
 
         return super.startService(newService);
+    }
+
+    @Override
+    public Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter) {
+        // 拦截插件APP传来的receiver
+        String broadcastReceiverName = receiver.getClass().getName();
+
+        // 最终广播在宿主环境的代理类里注册
+        return super.registerReceiver(new ProxyBroadcastReceiver(broadcastReceiverName), filter);
+    }
+
+    @Override
+    public void sendBroadcast(Intent intent) {
+        super.sendBroadcast(intent);
     }
 
     @Override

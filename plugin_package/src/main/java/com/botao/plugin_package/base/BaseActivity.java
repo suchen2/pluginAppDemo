@@ -2,8 +2,10 @@ package com.botao.plugin_package.base;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 
@@ -50,7 +52,17 @@ public class BaseActivity extends Activity implements IActivity {
         appActivity.startActivity(newIntent);// 通过宿主的Activity环境启动,方法调用到宿主的startActivity方法里(到宿主Activity重写此方法)
     }
 
+    @Override
+    public Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter) {
+        // 调用到宿主环境去
+        return appActivity.registerReceiver(receiver, filter);
+    }
 
+    @Override
+    public void sendBroadcast(Intent intent) {
+        // 调用到宿主的发送方法
+        appActivity.sendBroadcast(intent);
+    }
 
     @Override
     public ComponentName startService(Intent service) {
